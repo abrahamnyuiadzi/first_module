@@ -35,7 +35,7 @@ public class Main {
         prix_taux_TVA= ((prix_total*TVA)/100);
 
 
-        //Au cas vous souhaiterez ajouter d'autres taux ou taxes
+        //in the case  you want to add more rate and taxes 
         do {
             System.out.print(" \n do you want to add more  taxes ? \n if yes  enter 1 \n if no enter 0 \n Entrer your choice : ");
             choix= sc.nextInt();
@@ -44,7 +44,7 @@ public class Main {
         switch (choix) {
             case (0):
 
-                //Confirmation de vente
+                //Confirmation of sale
 
                 do {
                     System.out.println("type 1  to confirm  the sale or  O for cancel");
@@ -58,7 +58,7 @@ public class Main {
 
                         break;
 
-                    //FACTURE
+                    //BILLS
 
                     case 1 :
                         System.out.println(" PHARMACY* BILLS");
@@ -85,7 +85,7 @@ public class Main {
 
                 prix_taux_TVA2= ((prix_total*TVA_2)/100);
 
-                //Confirmation de vente
+                //Confirmation of the sales 
                 do {
                     System.out.println(" Appuyer 1 confirmer la vente ou O pour Annuler");
                     choix = sc.nextInt();
@@ -100,7 +100,7 @@ public class Main {
                     case 1 :
 
 
-                        // FACTURE
+                        // printing the bills 
 
                         System.out.println("\n \n  ****FACTURE DE PHARMACIE***** \n");
                         System.out.println("\t"+ "Produits : " + Nom_Du_Produit);
