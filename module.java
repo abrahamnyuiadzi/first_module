@@ -1,124 +1,82 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
 
+        String productName;
+        int unitPrice, quantity, totalPrice;
+        double taxRate, taxAmount;
+        double extraTaxRate = 0, extraTaxAmount = 0;
+        int choice;
 
-        String Nom_Du_Produit;
-        int montant;
-        int quantite;
-        int prix_total;
-        double TVA;
-        double prix_taux_TVA;
-        double TVA_2;
-        double prix_taux_TVA2;
-        int choix;
+        System.out.print("\nEnter the name of the product: ");
+        productName = sc.nextLine();
 
+        System.out.print("Enter the price of the product: ");
+        unitPrice = sc.nextInt();
 
-        System.out.print("\n\n" +
-                "Enter the name of product ");
-        Nom_Du_Produit= sc.nextLine();
+        System.out.print("Enter the quantity of the product: ");
+        quantity = sc.nextInt();
 
-        System.out.print("Enter the price  of product : ");
-        montant= sc.nextInt();
+        System.out.print("Enter the TVA rate in %: ");
+        taxRate = sc.nextDouble();
 
-        System.out.print("Enter the quantity  of product  : ");
-        quantite= sc.nextInt();
+        totalPrice = unitPrice * quantity;
+        taxAmount = (totalPrice * taxRate) / 100;
 
-        System.out.print("Enter the rate   TVA en % : ");
-        TVA = sc.nextDouble();
-
-        prix_total= montant*quantite;
-
-        prix_taux_TVA= ((prix_total*TVA)/100);
-
-
-        //in the case  you want to add more rate and taxes 
+        // Ask for additional tax
         do {
-            System.out.print(" \n do you want to add more  taxes ? \n if yes  enter 1 \n if no enter 0 \n Entrer your choice : ");
-            choix= sc.nextInt();
-        } while (choix!=0 && choix!=1);
+            System.out.print("\nDo you want to add more taxes?\nEnter 1 for Yes, 0 for No: ");
+            choice = sc.nextInt();
+        } while (choice != 0 && choice != 1);
 
-        switch (choix) {
-            case (0):
+        if (choice == 1) {
+            System.out.print("Enter the additional tax rate in %: ");
+            extraTaxRate = sc.nextDouble();
+            extraTaxAmount = (totalPrice * extraTaxRate) / 100;
+        }
 
-                //Confirmation of sale
+        // Confirm the sale
+        // using do while loop to make sure the user enter 0 or 1
+        do {
+            System.out.print("Enter 1 to confirm the sale, or 0 to cancel: ");
+            choice = sc.nextInt();
+        } while (choice != 0 && choice != 1);
+         //if choice equal to 0 the sale is canceled
+        if (choice == 0) {
+            System.out.println("Sale cancelled.");
+            //if not the program continue to run
+        } else {
+            StringBuilder bill = new StringBuilder();
 
-                do {
-                    System.out.println("type 1  to confirm  the sale or  O for cancel");
-                    choix = sc.nextInt();
-                } while (choix!=0 && choix!=1);
+            bill.append("\n**** PHARMACY INVOICE ****\n");
+            bill.append("Product: ").append(productName).append("\n");
+            bill.append("Unit Price: ").append(unitPrice).append(" FCFA\n");
+            bill.append("Quantity: ").append(quantity).append("\n");
+            bill.append("Gross Amount: ").append(totalPrice).append(" FCFA\n");
+            bill.append("TVA Rate: ").append(taxRate).append(" %\n");
+            bill.append("Additional Tax Rate: ").append(extraTaxRate).append(" %\n");
+            bill.append("TVA Amount: ").append(taxAmount).append(" FCFA\n");
+            bill.append("Additional Tax Amount: ").append(extraTaxAmount).append(" FCFA\n");
+            bill.append("Total Amount (TTC): ").append(totalPrice + taxAmount + extraTaxAmount).append(" FCFA\n");
 
-                switch (choix) {
-                    case 0:
-                        System.out.println("Sale cancel...");
+            System.out.println(bill);
 
+            // Write to file
+            try {
+                PrintWriter writer = new PrintWriter(new FileWriter("facture.txt"));
+                writer.print(bill);
+                writer.close();
+                System.out.println("✅ Bill has been written to facture.txt");
+            } catch (IOException e) {
+                System.out.println("❌ Error writing to file: " + e.getMessage());
+            }
+        }
 
-                        break;
-
-                    //BILLS
-
-                    case 1 :
-                        System.out.println(" PHARMACY* BILLS");
-                        System.out.println("\t"+ "Products : " + Nom_Du_Produit);
-                        System.out.println("\t"+ "Unit price  : " + montant + " FCFA" );
-                        System.out.println("\t"+ "Quantity : " + quantite );
-                        System.out.println("\t"+ " brut Amount: " + prix_total + " FCFA");
-                        System.out.println("\t"+ "rate of TVA: " + TVA + " %");
-                        System.out.println("\t"+ "secondary rate : 0 %");
-                        System.out.println("\t"+ "the amount of TVA:" +prix_taux_TVA+ " FCFA ");
-                        System.out.println("\t"+ "the amount of  secondary rate : 0 FCFA  \n");
-                        System.out.println("total Amount TTC : " + (prix_total+prix_taux_TVA) + " FCFA");
-
-                        break;
-                }
-
-
-                break;
-
-
-            case (1):
-                System.out.print("\n Enter the others  rate in  %: ");
-                TVA_2= sc.nextDouble();
-
-                prix_taux_TVA2= ((prix_total*TVA_2)/100);
-
-                //Confirmation of the sales 
-                do {
-                    System.out.println(" Appuyer 1 confirmer la vente ou O pour Annuler");
-                    choix = sc.nextInt();
-                } while (choix!=0 && choix!=1);
-
-                switch (choix) {
-                    case 0:
-                        System.out.println("Vente Annuler...");
-
-                        break;
-
-                    case 1 :
-
-
-                        // printing the bills 
-
-                        System.out.println("\n \n  ****FACTURE DE PHARMACIE***** \n");
-                        System.out.println("\t"+ "Produits : " + Nom_Du_Produit);
-                        System.out.println("\t"+ "Prix unitaire : " + montant + " FCFA");
-                        System.out.println("\t"+ "Quantité : " + quantite );
-                        System.out.println("\t"+ "Montant brut: " + prix_total + " FCFA");
-                        System.out.println("\t"+ "Taux de la TVA: " + TVA + " %");
-                        System.out.println("\t"+ "Taux secondaire: " + TVA_2 + " %");
-                        System.out.println("\t"+ "Le montant de la TVA: " + prix_taux_TVA + " FCFA");
-                        System.out.println("\t"+ "Le montant taux secondaire : " + prix_taux_TVA2 + " FCFA  \n");
-                        System.out.println("Montant total TTC : " + (prix_total+prix_taux_TVA+prix_taux_TVA2) + " FCFA");
-
-                        break;
-                }
-
-                break;
-}
-
-}
-
+        sc.close();
+    }
 }
